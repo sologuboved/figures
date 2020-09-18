@@ -1,32 +1,40 @@
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
-from helpers import write_pid
+import input_processor
+from helpers import is_authorized, report_exception, write_pid
 from tkn import TOKEN
 
 
+@is_authorized
 def start(update, context):
     pass
 
 
+@is_authorized
 def descr(update, context):
     pass
 
 
+@is_authorized
 def delete(update, context):
     pass
 
 
+@is_authorized
 def stats(update, context):
     pass
 
 
+@is_authorized
 def read(update, context):
     pass
 
 
+@is_authorized
 def append(update, context):
-    pass
+    update.message.reply_text(input_processor.append(update.message.text))
 
 
+@report_exception
 def main():
     updater = Updater(token=TOKEN, use_context=True)
     dispatcher = updater.dispatcher
