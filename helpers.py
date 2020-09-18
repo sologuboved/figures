@@ -22,7 +22,7 @@ def dump_utf_json(entries, json_file):
 def notify_of_alert(notification, chat_id=TELETRACEBACKS_CHAT_ID):
     notifier = Bot(token=TOKEN)
     notifier.send_message(chat_id=chat_id,
-                          text="Govprograms Updater:\n\n" + notification)
+                          text="Figures Bot:\n\n" + notification)
 
 
 def report_exception(func=None, raise_exception=False):
