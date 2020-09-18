@@ -13,5 +13,9 @@ def process_row(raw_row):
     return "{}: {}".format(process_date(raw_row[0]), " / ".join(map(str, raw_row[1:])))
 
 
-def output_last_bit():
+def read_last_bit():
     return process_row(load_utf_json(FILENAME)[-1])
+
+
+def read_file(lim):
+    return '\n'.join(process_row(row) for row in load_utf_json(FILENAME)[-lim:])

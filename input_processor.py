@@ -27,5 +27,12 @@ def append(user_input):
     return True
 
 
+def get_lim(user_input):
+    try:
+        return int(user_input)
+    except ValueError:
+        return 0
+
+
 if __name__ == '__main__':
     print(append('4.8 / 4.9'))

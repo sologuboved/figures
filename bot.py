@@ -23,7 +23,7 @@ def delete(update, context):
 
 @is_authorized
 def read(update, context):
-    pass
+    update.message.reply_text(output_processor.read_file(input_processor.get_lim(update.message.text)))
 
 
 @is_authorized
@@ -39,7 +39,7 @@ def append(update, context):
         text = INVALID_INPUT
     else:
         if input_processed:
-            text = output_processor.output_last_bit()
+            text = output_processor.read_last_bit()
         else:
             text = WRONG
     update.message.reply_text(text)
