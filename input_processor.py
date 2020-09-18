@@ -13,8 +13,11 @@ def append(user_input):
         last_bit = [serializable_today]
     else:
         last_bit = data[-1]
-        date = last_bit[0]
-        if datetime.date(*date) == today:
+        try:
+            date = datetime.date(*last_bit[0])
+        except TypeError:
+            date = None
+        if date == today:
             del data[-1]
         else:
             last_bit = [serializable_today]
