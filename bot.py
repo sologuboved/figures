@@ -36,6 +36,11 @@ def stats(update, context):
 
 
 @is_authorized
+def stats_for_last_bit(update, context):
+    pass
+
+
+@is_authorized
 def append(update, context):
     try:
         input_processed = input_processor.append(update.message.text)
@@ -59,12 +64,14 @@ def main():
     del_handler = CommandHandler('del', delete)
     read_handler = CommandHandler('read', read)
     stats_handler = CommandHandler('stats', stats)
+    stats_for_last_bit_handler = CommandHandler('cf', stats)
 
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(del_handler)
     dispatcher.add_handler(read_handler)
     dispatcher.add_handler(stats_handler)
+    dispatcher.add_handler(stats_for_last_bit_handler)
 
     dispatcher.add_handler(MessageHandler(filters=Filters.text, callback=append))
 
