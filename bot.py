@@ -1,6 +1,8 @@
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 import input_processor
+import output_processor
 from helpers import is_authorized, report_exception, write_pid
+from global_vars import INVALID_INPUT, WRONG
 from tkn import TOKEN
 
 
@@ -31,7 +33,16 @@ def read(update, context):
 
 @is_authorized
 def append(update, context):
-    update.message.reply_text(input_processor.append(update.message.text))
+    try:
+        input_processed = input_processor.append(update.message.text)
+    except ValueError:
+        text = INVALID_INPUT
+    else:
+        if input_processed:
+            text = output_processor.output_last_bit()
+        else:
+            text = WRONG
+    update.message.reply_text(text)
 
 
 @report_exception

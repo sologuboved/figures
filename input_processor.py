@@ -1,6 +1,6 @@
 import datetime
 from helpers import load_utf_json, dump_utf_json
-from global_vars import FILENAME, INVALID_INPUT
+from global_vars import FILENAME
 
 
 def append(user_input):
@@ -18,14 +18,10 @@ def append(user_input):
             del data[-1]
         else:
             last_bit = [serializable_today]
-    try:
-        last_bit.extend(map(lambda x: float(str.strip(x)), user_input.split('/')))
-    except ValueError:
-        return INVALID_INPUT
+    last_bit.extend(map(lambda x: float(str.strip(x)), user_input.split('/')))
     data.append(last_bit)
     dump_utf_json(data, FILENAME)
-    readable_date = '{:02d}.{:02d}.{}'.format(*last_bit[0])
-    return "Wrote in {}: {}".format(readable_date, " / ".join(map(str, last_bit[1:])))
+    return True
 
 
 if __name__ == '__main__':
