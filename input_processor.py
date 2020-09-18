@@ -2,7 +2,9 @@ import datetime
 import statistics
 from collections import defaultdict
 from helpers import load_utf_json, dump_utf_json
-from global_vars import FILENAME, MEAN, MEDIAN, MEAN_DELTA, MEDIAN_DELTA
+from global_vars import FILENAME, MEAN, MEDIAN, MEAN_DELTA, MEDIAN_DELTA, ITEM
+
+FILENAME = 'test_updates.json'
 
 
 def append(user_input):
@@ -58,26 +60,34 @@ def get_stats_for_last_bit():
     data = load_utf_json(FILENAME)
     last_bit = data[-1]
     _, *items = last_bit
-    columns = list()
-    for index in range(len(last_bit[1:])):
-        if last_bit[index] is None:
+    columns = defaultdict(list)
+    length = len(items)
+    for index in range(length):
+        if items[index] is None:
             continue
-        column = defaultdict(list)
-        for row in data:
+        for row in data[: -1]:
             try:
-                datum = row[index]
+                datum = row[index + 1]
             except IndexError:
                 continue
             if datum is not None:
-                column[index].append(datum)
-        columns.append(column)
-    results = defaultdict(list)
-    for index, column in columns:
+                columns[index].append(datum)
+    results = list()
+    for index in range(length):
+        item = items[index]
+        result = {fieldname: None for fieldname in (MEAN, MEDIAN, MEAN_DELTA, MEDIAN_DELTA)}
+        result[ITEM] = item
+        column = columns.get(index, list())
         try:
-            results[index].append({MEAN: statistics.mean(column), MEDIAN: statistics.median(column)})
+            mean = statistics.mean(column)
+            median = statistics.median(column)
         except statistics.StatisticsError:
-            results[index].append({MEAN: None, MEDIAN: None})
-    for result in results:
-        pass
+            pass
+        else:
+            result = {MEAN: mean, MEDIAN: median, MEAN_DELTA: item - mean, MEDIAN_DELTA: item - median, ITEM: item}
+        results.append(result)
+    return results
 
 
+if __name__ == '__main__':
+    print(get_stats_for_last_bit())
