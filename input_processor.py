@@ -34,5 +34,8 @@ def get_lim(user_input):
         return 0
 
 
-if __name__ == '__main__':
-    print(append('4.8 / 4.9'))
+def del_last_bit():
+    data = load_utf_json(FILENAME)
+    last_bit = data.pop(-1)
+    dump_utf_json(data, FILENAME)
+    return last_bit

@@ -18,7 +18,11 @@ def descr(update, context):
 
 @is_authorized
 def delete(update, context):
-    pass
+    try:
+        text = 'Deleted {}'.format(output_processor.process_row(input_processor.del_last_bit()))
+    except IndexError:
+        text = "Delete failed, file is empty"
+    update.message.reply_text(text)
 
 
 @is_authorized
@@ -39,7 +43,7 @@ def append(update, context):
         text = INVALID_INPUT
     else:
         if input_processed:
-            text = output_processor.read_last_bit()
+            text = "Wrote in {}".format(output_processor.read_last_bit())
         else:
             text = WRONG
     update.message.reply_text(text)
