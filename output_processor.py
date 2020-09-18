@@ -10,7 +10,9 @@ def process_date(raw_date):
 
 
 def process_row(raw_row):
-    return "{}: {}".format(process_date(raw_row[0]), " / ".join(map(str, raw_row[1:])))
+    return "{}: {}".format(
+        process_date(raw_row[0]), " / ".join([str(datum) if datum else '-' for datum in raw_row[1:]])
+    )
 
 
 def read_last_bit():
