@@ -4,7 +4,7 @@ from collections import defaultdict
 from helpers import load_utf_json, dump_utf_json
 from global_vars import FILENAME, MEAN, MEDIAN, MEAN_DELTA, MEDIAN_DELTA, ITEM
 
-FILENAME = 'test_updates.json'
+# FILENAME = 'test_updates.json'
 
 
 def append(user_input):
@@ -72,7 +72,7 @@ def get_stats_for_last_bit():
                 continue
             if datum is not None:
                 columns[index].append(datum)
-    results = list()
+    stats = list()
     for index in range(length):
         item = items[index]
         result = {fieldname: None for fieldname in (MEAN, MEDIAN, MEAN_DELTA, MEDIAN_DELTA)}
@@ -85,9 +85,10 @@ def get_stats_for_last_bit():
             pass
         else:
             result = {MEAN: mean, MEDIAN: median, MEAN_DELTA: item - mean, MEDIAN_DELTA: item - median, ITEM: item}
-        results.append(result)
-    return results
+        stats.append(result)
+    return stats
 
 
 if __name__ == '__main__':
-    print(get_stats_for_last_bit())
+    from output_processor import process_stats
+    print(process_stats(get_stats_for_last_bit()))
