@@ -22,12 +22,12 @@ def delete(update, context):
 
 
 @is_authorized
-def stats(update, context):
+def read(update, context):
     pass
 
 
 @is_authorized
-def read(update, context):
+def stats(update, context):
     pass
 
 
