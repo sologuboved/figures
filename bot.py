@@ -1,3 +1,4 @@
+from telegram import ParseMode
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 import input_processor
 import output_processor
@@ -38,7 +39,7 @@ def stats(update, context):
 @is_authorized
 def stats_for_last_bit(update, context):
     text = output_processor.process_stats(input_processor.get_stats_for_last_bit())
-    update.message.reply_text(text)
+    update.message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
 @is_authorized

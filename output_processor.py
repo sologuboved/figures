@@ -1,4 +1,3 @@
-from tabulate import tabulate
 from helpers import load_utf_json
 from global_vars import FILENAME, ITEM, MEAN, MEAN_DELTA, MEDIAN, MEDIAN_DELTA
 
@@ -26,20 +25,19 @@ def read_file(lim):
 
 def process_stats(raw_stats):
     headers = (ITEM, MEAN, MEAN_DELTA, MEDIAN, MEDIAN_DELTA)
-    stats = [[row[ITEM]] + [process_cell(row[header], True)
-                            if header in (MEAN_DELTA, MEDIAN_DELTA) else process_cell(row[header], False)
-                            for header in headers[1:]] for row in raw_stats]
-    print(stats)
-    stats = tabulate(stats, headers=headers)
+    stats = ''
+    for row in raw_stats:
+        row = '\n'.join(['<b>{}:</b> {}'.format(header, process_cell(row[header], header in (MEAN_DELTA, MEDIAN_DELTA))) for header in headers])
+        stats += row + '\n\n'
     return stats
 
 
-def process_cell(item, plus):
-    print(item, type(item))
-    if item is None:
+def process_cell(cell, plus):
+    if cell is None:
         return '-'
+    cell = '{:.2f}'.format(cell)
     if plus:
-        if item > 0:
-            return '+' + str(item)
-        return str(item)
-    return str(item)
+        if not cell.startswith('-'):
+            return '+' + cell
+        return cell
+    return cell
