@@ -15,6 +15,7 @@ def start(update, context):
 @is_authorized
 def descr(update, context):
     update.message.reply_text("""
+<em>45.5</em> add float or integer
 /del delete last entry
 /read <em>5</em> read last <em>5</em> or all entries
 /stats see stats
