@@ -53,7 +53,20 @@ def del_last_bit():
 
 
 def get_stats():
-    pass
+    data = load_utf_json(FILENAME)
+    columns = list()
+    for index in range(1, max(len(row) for row in data)):
+        column = list()
+        for row in data:
+            try:
+                item = row[index]
+            except IndexError:
+                pass
+            else:
+                if item is not None:
+                    column.append(item)
+        columns.append(column)
+    return [{MEAN: statistics.mean(column), MEDIAN: statistics.median(column)} for column in columns]
 
 
 def get_stats_for_last_bit():
@@ -91,4 +104,4 @@ def get_stats_for_last_bit():
 
 if __name__ == '__main__':
     from output_processor import process_stats
-    print(process_stats(get_stats_for_last_bit()))
+    print(process_stats(get_stats(), (MEAN, MEDIAN)))

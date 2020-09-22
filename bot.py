@@ -3,7 +3,7 @@ from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 import input_processor
 import output_processor
 from helpers import is_authorized, report_exception, write_pid
-from global_vars import INVALID_INPUT, WRONG
+from global_vars import *
 from tkn import TOKEN
 
 """
@@ -46,12 +46,14 @@ def read(update, context):
 
 @is_authorized
 def stats(update, context):
-    pass
+    text = output_processor.process_stats(input_processor.get_stats(), (MEAN, MEDIAN))
+    update.message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
 @is_authorized
 def stats_for_last_bit(update, context):
-    text = output_processor.process_stats(input_processor.get_stats_for_last_bit())
+    text = output_processor.process_stats(input_processor.get_stats_for_last_bit(),
+                                          (ITEM, MEAN, MEAN_DELTA, MEDIAN, MEDIAN_DELTA))
     update.message.reply_text(text, parse_mode=ParseMode.HTML)
 
 

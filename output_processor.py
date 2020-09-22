@@ -1,5 +1,5 @@
 from helpers import load_utf_json
-from global_vars import FILENAME, ITEM, MEAN, MEAN_DELTA, MEDIAN, MEDIAN_DELTA
+from global_vars import FILENAME, MEAN_DELTA, MEDIAN_DELTA
 
 
 def process_date(raw_date):
@@ -23,11 +23,12 @@ def read_file(lim):
     return '\n'.join(process_row(row) for row in load_utf_json(FILENAME)[-lim:])
 
 
-def process_stats(raw_stats):
-    headers = (ITEM, MEAN, MEAN_DELTA, MEDIAN, MEDIAN_DELTA)
+def process_stats(raw_stats, headers):
     stats = ''
     for row in raw_stats:
-        row = '\n'.join(['<b>{}:</b> {}'.format(header, process_cell(row[header], header in (MEAN_DELTA, MEDIAN_DELTA))) for header in headers])
+        row = '\n'.join(['<b>{}:</b> {}'.format(header, process_cell(row[header], header
+                                                                     in (MEAN_DELTA, MEDIAN_DELTA)))
+                         for header in headers])
         stats += row + '\n\n'
     return stats
 
