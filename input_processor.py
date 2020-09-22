@@ -26,7 +26,7 @@ def append(user_input):
         else:
             last_bit = [serializable_today]
     new_data = list()
-    for datum in user_input.split('/'):
+    for datum in user_input.split('&'):
         datum = datum.strip()
         if datum == '-':
             new_data.append(None)
