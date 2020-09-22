@@ -6,6 +6,13 @@ from helpers import is_authorized, report_exception, write_pid
 from global_vars import INVALID_INPUT, WRONG
 from tkn import TOKEN
 
+"""
+del - delete last entry
+read - read entries
+stat - see stats
+cf - compare last entry against stats
+"""
+
 
 @is_authorized
 def start(update, context):
@@ -18,8 +25,8 @@ def descr(update, context):
 <em>45.5</em> add float or integer
 /del delete last entry
 /read <em>5</em> read last <em>5</em> or all entries
-/stats see stats
-/cf see stats compared against last entry
+/stat see stats
+/cf see last entry compared against stats
         """, parse_mode=ParseMode.HTML)
 
 
@@ -71,7 +78,7 @@ def main():
     help_handler = CommandHandler('help', descr)
     del_handler = CommandHandler('del', delete)
     read_handler = CommandHandler('read', read)
-    stats_handler = CommandHandler('stats', stats)
+    stats_handler = CommandHandler('stat', stats)
     stats_for_last_bit_handler = CommandHandler('cf', stats_for_last_bit)
 
     dispatcher.add_handler(start_handler)
