@@ -9,12 +9,17 @@ from tkn import TOKEN
 
 @is_authorized
 def start(update, context):
-    pass
+    update.message.reply_text("Go on...")
 
 
 @is_authorized
 def descr(update, context):
-    pass
+    update.message.reply_text("""
+/del delete last entry
+/read <em>5</em> read last <em>5</em> or all entries
+/stats see stats
+/cf see stats compared against last entry
+        """, parse_mode=ParseMode.HTML)
 
 
 @is_authorized
