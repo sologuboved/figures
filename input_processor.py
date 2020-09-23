@@ -2,7 +2,7 @@ import datetime
 import statistics
 from collections import defaultdict
 from helpers import load_utf_json, dump_utf_json
-from global_vars import FILENAME, MEAN, MEDIAN, MEAN_DELTA, MEDIAN_DELTA, ITEM
+from global_vars import FILENAME, MEAN, MEDIAN, MEAN_DELTA, MEDIAN_DELTA, ITEM, MIN, MAX
 
 # FILENAME = 'test_updates.json'
 
@@ -66,7 +66,10 @@ def get_stats():
                 if item is not None:
                     column.append(item)
         columns.append(column)
-    return [{MEAN: statistics.mean(column), MEDIAN: statistics.median(column)} for column in columns]
+    return [{MEAN: statistics.mean(column),
+             MEDIAN: statistics.median(column),
+             MIN: min(column),
+             MAX: max(column)} for column in columns]
 
 
 def get_stats_for_last_bit():

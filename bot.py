@@ -46,7 +46,7 @@ def read(update, context):
 
 @is_authorized
 def stats(update, context):
-    text = output_processor.process_stats(input_processor.get_stats(), (MEAN, MEDIAN))
+    text = output_processor.process_stats(input_processor.get_stats(), (MEAN, MEDIAN, MIN, MAX))
     update.message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
