@@ -1,3 +1,5 @@
+from telegram.constants import MessageLimit
+
 from global_vars import FILENAME, MEAN_DELTA, MEDIAN_DELTA
 from helpers import load_utf_json
 
@@ -20,7 +22,7 @@ def read_last_bit():
 
 
 def read_file(lim):
-    return '\n'.join(process_row(row) for row in load_utf_json(FILENAME)[-lim:])
+    return batch([process_row(row) for row in load_utf_json(FILENAME)[-lim - 1:]])
 
 
 def process_stats(raw_stats, headers):
@@ -43,3 +45,16 @@ def process_cell(cell, plus):
             return '+' + cell
         return cell
     return cell
+
+
+def batch(lines):
+    messages = list()
+    message = line = ''
+    while lines:
+        message += line
+        line = lines.pop(0) + '\n'
+        if len(message + line) >= MessageLimit.MAX_TEXT_LENGTH:
+            messages.append(message)
+            message = ''
+    messages.append(message)
+    return messages
