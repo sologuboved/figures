@@ -54,6 +54,7 @@ async def delete(update, context):
 @check_auth
 async def read(update, context):
     for message in output_processor.read_file(input_processor.get_lim(update.message.text)):
+        time.sleep(2)
         await context.bot.send_message(
             update.message.chat_id,
             message,
@@ -72,7 +73,6 @@ async def stats_for_last_bit(update, context):
         input_processor.get_stats_for_last_bit(),
         (ITEM, MEAN, MEAN_DELTA, MEDIAN, MEDIAN_DELTA),
     )
-    time.sleep(2)
     await context.bot.send_message(update.message.chat_id, text, parse_mode=ParseMode.HTML)
 
 

@@ -22,7 +22,7 @@ def read_last_bit():
 
 
 def read_file(lim):
-    return batch([process_row(row) for row in load_utf_json(FILENAME)[-lim - 1:]])
+    return batch([process_row(row) for row in load_utf_json(FILENAME)[-lim:]])
 
 
 def process_stats(raw_stats, headers):
