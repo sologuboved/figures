@@ -1,12 +1,15 @@
+import asyncio
+from functools import wraps
 import json
-import os
-import sys
-import re
-import traceback
 import logging
+import os
+import re
+import sys
+import traceback
+
 from telegram import Bot
-from functools import wraps, partial
-from userinfo import MY_ID, TELETRACEBACKS_CHAT_ID, TOKEN
+
+from userinfo import MY_ID, TOKEN
 
 
 def load_utf_json(json_file):
@@ -19,41 +22,31 @@ def dump_utf_json(entries, json_file):
         json.dump(entries, handler, ensure_ascii=False, sort_keys=True, indent=2)
 
 
-def notify_of_alert(notification, chat_id=TELETRACEBACKS_CHAT_ID):
-    notifier = Bot(token=TOKEN)
-    notifier.send_message(chat_id=chat_id,
-                          text="Figures Bot:\n\n" + notification)
-
-
-def report_exception(func=None, raise_exception=False):
-    if func is None:
-        return partial(report_exception, raise_exception=raise_exception)
-
+def report_exception(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except Exception as e:
+            notification = f"({func.__name__}, called with {args}, {kwargs}) {type(e).__name__}: {e}"
+            asyncio.run(Bot(token=TOKEN).send_message(
+                chat_id=MY_ID,
+                text=notification,
+                disable_web_page_preview=True,
+            ))
             traceback_msg = traceback.format_exc()
             logging.error(traceback_msg)
-            notify_of_alert(
-                "({}, called with {}, {}) {}: {}".format(func.__name__, args, kwargs,
-                                                         type(e).__name__, str(e))
-            )
-            if raise_exception:
-                raise e
-
     return wrapper
 
 
-def is_authorized(func):
+def check_auth(func):
     @wraps(func)
-    def wrapper(update, *args, **kwargs):
+    async def wrapper(update, context, *args, **kwargs):
         chat_id = update.message.chat_id
         if chat_id != MY_ID:
-            return "You shall not pass"
-        else:
-            return func(update, *args, **kwargs)
+            await context.bot.send_message(chat_id=chat_id, text="You shall not pass")
+            return
+        return await func(update, context, *args, **kwargs)
     return wrapper
 
 

@@ -1,10 +1,9 @@
+from collections import defaultdict
 import datetime
 import statistics
-from collections import defaultdict
-from helpers import load_utf_json, dump_utf_json
-from global_vars import FILENAME, MEAN, MEDIAN, MEAN_DELTA, MEDIAN_DELTA, ITEM, MIN, MAX
 
-# FILENAME = 'test_updates.json'
+from global_vars import FILENAME, ITEM, MAX, MEAN, MEAN_DELTA, MEDIAN, MEDIAN_DELTA, MIN
+from helpers import dump_utf_json, load_utf_json
 
 
 def append(user_input):
@@ -66,10 +65,12 @@ def get_stats():
                 if item is not None:
                     column.append(item)
         columns.append(column)
-    return [{MEAN: statistics.mean(column),
-             MEDIAN: statistics.median(column),
-             MIN: min(column),
-             MAX: max(column)} for column in columns]
+    return [{
+        MEAN: statistics.mean(column),
+        MEDIAN: statistics.median(column),
+        MIN: min(column),
+        MAX: max(column),
+    } for column in columns]
 
 
 def get_stats_for_last_bit():
@@ -107,4 +108,5 @@ def get_stats_for_last_bit():
 
 if __name__ == '__main__':
     from output_processor import process_stats
+
     print(process_stats(get_stats(), (MEAN, MEDIAN)))
