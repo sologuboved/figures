@@ -4,7 +4,7 @@ import input_processor
 import output_processor
 from helpers import is_authorized, report_exception, write_pid
 from global_vars import *
-from tkn import TOKEN
+from userinfo import TOKEN
 
 """
 del - delete last entry

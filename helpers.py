@@ -6,7 +6,7 @@ import traceback
 import logging
 from telegram import Bot
 from functools import wraps, partial
-from tkn import MY_ID, TELETRACEBACKS_CHAT_ID, TOKEN
+from userinfo import MY_ID, TELETRACEBACKS_CHAT_ID, TOKEN
 
 
 def load_utf_json(json_file):

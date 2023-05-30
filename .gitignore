@@ -1,4 +1,6 @@
 .idea/
-tkn.py
+.DS_Store
+__pycache__/
 updates.json
-empty.json
+userinfo.py
+venv_figures/
