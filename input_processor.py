@@ -39,7 +39,7 @@ def append(user_input):
 
 def get_lim(user_input):
     try:
-        return int(user_input.split()[1].strip()) + 1
+        return int(user_input.split()[1].strip())
     except (IndexError, ValueError):
         return 0
 

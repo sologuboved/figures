@@ -56,5 +56,6 @@ def batch(lines):
         if len(message + line) >= MessageLimit.MAX_TEXT_LENGTH:
             messages.append(message)
             message = ''
+    message += line
     messages.append(message)
     return messages
